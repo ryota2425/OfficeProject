@@ -1,0 +1,135 @@
+<!doctype html>
+
+<html lang="ja">
+    <%- include('./header_video'); %>
+    <%- include('./datepicker'); %>
+
+    <body>
+        <%- include('./navbar'); %>
+
+        <!-- 各ボタン -->
+        <div class="start_input">
+            <label>日付：<input type='text' id="starttime" class="datepicker-here"/></label>
+        </div>
+
+        <div class="interval_select details">
+            <select id="interval">
+                <option value="unselected">表示時間</option>
+            </select>
+        </div>
+
+        <div class="interval_select details">
+            <select name="machineId" id="machineId">
+                <option value=unselected>機械名一覧</option>
+            </select>
+        </div>
+
+        <button id="search" class="search_button">検索</button>
+
+        <hr>
+        <br>
+
+        <ul id="video_file_name_list"></ul>
+
+        <script>
+            var selectedYMD;
+            var selectedHour;
+            var selectedMachineId;
+
+            function getMachineNameList() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/api/v1/config/machine_name_list', false);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 受信に成功したとき
+                xhr.onload = function () {
+                    machineInfo = JSON.parse(xhr.responseText).result;
+
+                    for (var i = 0; i < machineInfo.length; i++) {
+                        var option = document.createElement('option');
+                        option.value = machineInfo[i].machineId;
+                        option.text = machineInfo[i].name;
+                        document.getElementById('machineId').appendChild(option);
+                    }
+                };
+
+                // XMLHttpRequestを送信
+                xhr.send(null);
+            }
+
+            function getFileNameList(dirPath) {
+                var fileNameList;
+
+                var xhr = new XMLHttpRequest();
+                // 一時的なエスケープ処理 (URLと区別するため)
+                xhr.open('POST', `/api/v1/config/video_file_name_list/${dirPath.split('/').join('-')}`, false);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 受信に成功したとき
+                xhr.onload = function () {
+                    fileNameList = JSON.parse(xhr.responseText).result;
+
+                    var ul = document.getElementById('video_file_name_list')
+                    ul.textContent = '';
+
+                    if (fileNameList.length == 0) {
+                        ul.insertAdjacentHTML('beforeend','<li>No Data</li>');
+                    } else {
+                        fileNameList.forEach(fileName => {
+                            var pattern = /^(\d)+_(\d{4})-(\d\d)-(\d\d)_(\d\d)-(\d\d)\.mp4$/g;
+                            var result = pattern.exec(fileName);
+                            var year = result[2]
+                            var month = result[3]
+                            var day = result[4]
+                            var hour = result[5]
+                            var minute = result[6]
+                            ul.insertAdjacentHTML('beforeend',`<li><a href='/video/${dirPath}/${minute}' target='_blank' rel='noopener noreferrer'>${year}/${month}/${day} ${hour}:${minute}</a></li>`);
+                        });
+                    }
+                };
+
+                // XMLHttpRequestを送信
+                xhr.send(null);
+            }
+
+            (function() {
+                // datepicker(カレンダー)の設定
+                function datepicker() {
+                    $('#starttime').datepicker({
+                        position: "right top",
+                        language: "jp",
+                    });
+                }
+
+                function init() {
+                    datepicker();
+                    getMachineNameList();
+                    var intervalList = document.getElementById('interval');
+                    for (i = 0; i <= 24; i++) {
+                        intervalList.insertAdjacentHTML('afterbegin', `<option value='${i}'>${i}:00~<option>`);
+                    }
+                }
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    init();
+                }, false)
+            })()
+
+
+            // 検索ボタンが押されとき
+            document.getElementById("search").onclick = function () {
+                selectedYMD = new Date(document.getElementById("starttime").value);
+                selectedHour = $('#interval').val()
+                selectedMachineId = $('#machineId').val()
+
+                if (selectedYMD == 'Invalid Date' || selectedHour == 'unselected' || selectedMachineId == 'unselected') {
+                    alert('検索条件をを全て入力して下さい')
+                } else {
+                    selectedHour = ( '00' + selectedHour ).slice( -2 );
+                    videoDirPath = `${selectedMachineId}/${selectedYMD.getFullYear()}/${selectedYMD.getMonth() + 1}/${selectedYMD.getDate()}/${selectedHour}`
+                    getFileNameList(videoDirPath)
+                }
+            };
+        </script>
+    </body>
+</html>
