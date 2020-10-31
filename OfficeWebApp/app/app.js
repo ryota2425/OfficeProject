@@ -55,14 +55,15 @@ app.get('/realtimevideo_byId/:id', (req, res) => {
 
 
 // 指定された時刻の動画を再生
-app.get('/video/:MachineId/:year/:month/:day/:hour/:minute', (req, res) => {
+app.get('/video/:MachineId/:year/:month/:day/:hour/:minute/:selectedHour', (req, res) => {
     res.render('video.ejs', {
         MachineId: req.params.MachineId,
         year: req.params.year,
         month: req.params.month,
         day: req.params.day,
         hour: req.params.hour,
-        minute: req.params.minute
+        minute: req.params.minute,
+        selectedHour: req.params.selectedHour
     })
 })
 

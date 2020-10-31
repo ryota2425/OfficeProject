@@ -78,12 +78,13 @@
                         fileNameList.forEach(fileName => {
                             var pattern = /^(\d)+_(\d{4})-(\d\d)-(\d\d)_(\d\d)-(\d\d)\.mp4$/g;
                             var result = pattern.exec(fileName);
+                            var machineId = result[1]
                             var year = result[2]
                             var month = result[3]
                             var day = result[4]
                             var hour = result[5]
                             var minute = result[6]
-                            ul.insertAdjacentHTML('beforeend',`<li><a href='/video/${dirPath}/${minute}' target='_blank' rel='noopener noreferrer'>${year}/${month}/${day} ${hour}:${minute}</a></li>`);
+                            ul.insertAdjacentHTML('beforeend',`<li><a href='/video/${machineId}/${year}/${month}/${day}/${hour}/${minute}/${selectedHour}' target='_blank' rel='noopener noreferrer'>${year}/${month}/${day} ${hour}:${minute}</a></li>`);
                         });
                     }
                 };
