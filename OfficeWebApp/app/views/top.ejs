@@ -106,7 +106,7 @@
                     datepicker();
                     getMachineNameList();
                     var intervalList = document.getElementById('interval');
-                    for (i = 0; i <= 24; i++) {
+                    for (i = 9; i <= 17; i++) {
                         intervalList.insertAdjacentHTML('afterbegin', `<option value='${i}'>${i}:00~<option>`);
                     }
                 }
@@ -126,8 +126,10 @@
                 if (selectedYMD == 'Invalid Date' || selectedHour == 'unselected' || selectedMachineId == 'unselected') {
                     alert('検索条件をを全て入力して下さい')
                 } else {
-                    selectedHour = ( '00' + selectedHour ).slice( -2 );
-                    videoDirPath = `${selectedMachineId}/${selectedYMD.getFullYear()}/${selectedYMD.getMonth() + 1}/${selectedYMD.getDate()}/${selectedHour}`
+                    selectedHour = ('00' + selectedHour).slice(-2);
+                    var month = ('00' + (selectedYMD.getMonth() + 1)).slice(-2);
+                    var date = ('00' + selectedYMD.getDate()).slice(-2);
+                    videoDirPath = `${selectedMachineId}/${selectedYMD.getFullYear()}/${month}/${date}/${selectedHour}`
                     getFileNameList(videoDirPath)
                 }
             };
