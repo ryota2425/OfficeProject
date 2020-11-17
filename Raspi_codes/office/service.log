@@ -1,0 +1,241 @@
+2019/08/28 16:31:31 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/08/28 16:31:32 5秒後に再試行します
+connect: ネットワークに届きません
+2019/08/28 16:31:37 5秒後に再試行します
+2019/08/28 16:31:42 アクセス成功！
+28 Aug 16:31:58 ntpdate[846]: step time server 133.243.238.164 offset 8.964270 sec
+2019/08/28 16:31:58 ntpdate finish!
+2019/08/28 16:31:58 FactoryPro_send_service start!
+2019/08/28 17:21:53 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/08/28 17:21:53 5秒後に再試行します
+connect: ネットワークに届きません
+2019/08/28 17:21:58 5秒後に再試行します
+2019/08/28 17:22:04 アクセス成功！
+28 Aug 17:22:19 ntpdate[862]: step time server 133.243.238.164 offset 8.555520 sec
+2019/08/28 17:22:19 ntpdate finish!
+2019/08/28 17:22:19 FactoryPro_send_service start!
+2019/08/30 12:13:20 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/08/30 12:13:20 5秒後に再試行します
+connect: ネットワークに届きません
+2019/08/30 12:13:25 5秒後に再試行します
+2019/08/30 12:13:30 アクセス成功！
+30 Aug 12:13:46 ntpdate[869]: step time server 133.243.238.164 offset 9.000393 sec
+2019/08/30 12:13:46 ntpdate finish!
+2019/08/30 12:13:46 FactoryPro_send_service start!
+Error: The data list waiting to be sent has exceeded the limit
+2019/09/01 15:21:52 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/09/01 15:21:53 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/01 15:21:58 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/01 15:22:03 5秒後に再試行します
+2019/09/01 15:22:08 アクセス成功！
+ 1 Sep 15:22:24 ntpdate[909]: step time server 133.243.238.163 offset 9.272298 sec
+2019/09/01 15:22:24 ntpdate finish!
+2019/09/01 15:22:24 FactoryPro_send_service start!
+2019/09/01 15:34:48 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/09/01 15:34:49 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/01 15:34:54 5秒後に再試行します
+2019/09/01 15:34:59 アクセス成功！
+ 1 Sep 15:35:14 ntpdate[840]: step time server 133.243.238.164 offset 8.617908 sec
+2019/09/01 15:35:14 ntpdate finish!
+2019/09/01 15:35:14 FactoryPro_send_service start!
+2019/09/01 15:37:26 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/09/01 15:37:27 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/01 15:37:32 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/01 15:37:37 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/01 15:37:42 5秒後に再試行します
+2019/09/01 15:37:47 アクセス成功！
+ 1 Sep 15:38:03 ntpdate[860]: step time server 133.243.238.164 offset 8.905972 sec
+2019/09/01 15:38:03 ntpdate finish!
+2019/09/01 15:38:03 FactoryPro_send_service start!
+2019/09/01 15:40:32 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/09/01 15:40:32 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/01 15:40:37 5秒後に再試行します
+2019/09/01 15:40:42 アクセス成功！
+24 Sep 14:41:56 ntpdate[839]: step time server 133.243.238.244 offset 1983667.339169 sec
+2019/09/24 14:41:56 ntpdate finish!
+2019/09/24 14:41:56 FactoryPro_send_service start!
+Traceback (most recent call last):
+  File "/home/pi/FactoryProject/FactoryProSensor.py", line 29, in <module>
+    bus.write_byte_data(DEV_ADDR, PWR_MGMT_1, 0)
+OSError: [Errno 121] Remote I/O error
+mmal: mmal_vc_component_create: failed to create component 'vc.ril.camera' (1:ENOMEM)
+mmal: mmal_component_create_core: could not create component 'vc.ril.camera' (1)
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 456, in _init_camera
+    self._camera = mo.MMALCamera()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 2279, in __init__
+    super(MMALCamera, self).__init__()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 633, in __init__
+    prefix="Failed to create MMAL component %s" % self.component_type)
+  File "/usr/lib/python3/dist-packages/picamera/exc.py", line 184, in mmal_check
+    raise PiCameraMMALError(status, prefix)
+picamera.exc.PiCameraMMALError: Failed to create MMAL component b'vc.ril.camera': Out of memory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 65, in <module>
+    capture()
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 31, in capture
+    with picamera.PiCamera() as camera:
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 431, in __init__
+    self._init_camera(camera_num, stereo_mode, stereo_decimate)
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 460, in _init_camera
+    "Camera is not enabled. Try running 'sudo raspi-config' "
+picamera.exc.PiCameraError: Camera is not enabled. Try running 'sudo raspi-config' and ensure that the camera has been enabled.
+2019/09/24 15:55:00 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/09/24 15:55:00 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/24 15:55:05 5秒後に再試行します
+2019/09/24 15:55:10 アクセス成功！
+24 Sep 15:55:27 ntpdate[883]: step time server 133.243.238.163 offset 9.298829 sec
+2019/09/24 15:55:27 ntpdate finish!
+2019/09/24 15:55:27 FactoryPro_send_service start!
+mmal: mmal_vc_component_create: failed to create component 'vc.ril.camera' (1:ENOMEM)
+mmal: mmal_component_create_core: could not create component 'vc.ril.camera' (1)
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 456, in _init_camera
+    self._camera = mo.MMALCamera()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 2279, in __init__
+    super(MMALCamera, self).__init__()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 633, in __init__
+    prefix="Failed to create MMAL component %s" % self.component_type)
+  File "/usr/lib/python3/dist-packages/picamera/exc.py", line 184, in mmal_check
+    raise PiCameraMMALError(status, prefix)
+picamera.exc.PiCameraMMALError: Failed to create MMAL component b'vc.ril.camera': Out of memory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 65, in <module>
+    capture()
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 31, in capture
+    with picamera.PiCamera() as camera:
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 431, in __init__
+    self._init_camera(camera_num, stereo_mode, stereo_decimate)
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 460, in _init_camera
+    "Camera is not enabled. Try running 'sudo raspi-config' "
+picamera.exc.PiCameraError: Camera is not enabled. Try running 'sudo raspi-config' and ensure that the camera has been enabled.
+2019/09/24 16:07:48 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/09/24 16:07:48 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/24 16:07:53 5秒後に再試行します
+2019/09/24 16:07:58 アクセス成功！
+24 Sep 16:08:14 ntpdate[881]: step time server 133.243.238.163 offset 8.929926 sec
+2019/09/24 16:08:14 ntpdate finish!
+2019/09/24 16:08:14 FactoryPro_send_service start!
+mmal: mmal_vc_component_create: failed to create component 'vc.ril.camera' (1:ENOMEM)
+mmal: mmal_component_create_core: could not create component 'vc.ril.camera' (1)
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 456, in _init_camera
+    self._camera = mo.MMALCamera()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 2279, in __init__
+    super(MMALCamera, self).__init__()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 633, in __init__
+    prefix="Failed to create MMAL component %s" % self.component_type)
+  File "/usr/lib/python3/dist-packages/picamera/exc.py", line 184, in mmal_check
+    raise PiCameraMMALError(status, prefix)
+picamera.exc.PiCameraMMALError: Failed to create MMAL component b'vc.ril.camera': Out of memory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 65, in <module>
+    capture()
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 31, in capture
+    with picamera.PiCamera() as camera:
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 431, in __init__
+    self._init_camera(camera_num, stereo_mode, stereo_decimate)
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 460, in _init_camera
+    "Camera is not enabled. Try running 'sudo raspi-config' "
+picamera.exc.PiCameraError: Camera is not enabled. Try running 'sudo raspi-config' and ensure that the camera has been enabled.
+2019/09/24 16:39:27 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/09/24 16:39:27 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/24 16:39:32 5秒後に再試行します
+2019/09/24 16:39:37 アクセス成功！
+24 Sep 16:39:52 ntpdate[896]: step time server 133.243.238.164 offset 8.714909 sec
+2019/09/24 16:39:53 ntpdate finish!
+2019/09/24 16:39:53 FactoryPro_send_service start!
+mmal: mmal_vc_component_create: failed to create component 'vc.ril.camera' (1:ENOMEM)
+mmal: mmal_component_create_core: could not create component 'vc.ril.camera' (1)
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 456, in _init_camera
+    self._camera = mo.MMALCamera()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 2279, in __init__
+    super(MMALCamera, self).__init__()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 633, in __init__
+    prefix="Failed to create MMAL component %s" % self.component_type)
+  File "/usr/lib/python3/dist-packages/picamera/exc.py", line 184, in mmal_check
+    raise PiCameraMMALError(status, prefix)
+picamera.exc.PiCameraMMALError: Failed to create MMAL component b'vc.ril.camera': Out of memory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 65, in <module>
+    capture()
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 31, in capture
+    with picamera.PiCamera() as camera:
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 431, in __init__
+    self._init_camera(camera_num, stereo_mode, stereo_decimate)
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 460, in _init_camera
+    "Camera is not enabled. Try running 'sudo raspi-config' "
+picamera.exc.PiCameraError: Camera is not enabled. Try running 'sudo raspi-config' and ensure that the camera has been enabled.
+2019/09/26 19:06:28 サーバへの接続確認開始
+connect: ネットワークに届きません
+2019/09/26 19:06:28 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/26 19:06:34 5秒後に再試行します
+connect: ネットワークに届きません
+2019/09/26 19:06:39 5秒後に再試行します
+2019/09/26 19:06:44 アクセス成功！
+26 Sep 19:07:00 ntpdate[852]: step time server 133.243.238.163 offset 9.138118 sec
+2019/09/26 19:07:00 ntpdate finish!
+2019/09/26 19:07:00 FactoryPro_send_service start!
+Traceback (most recent call last):
+  File "/home/pi/FactoryProject/FactoryProSensor.py", line 29, in <module>
+    bus.write_byte_data(DEV_ADDR, PWR_MGMT_1, 0)
+OSError: [Errno 121] Remote I/O error
+mmal: mmal_vc_component_create: failed to create component 'vc.ril.camera' (1:ENOMEM)
+mmal: mmal_component_create_core: could not create component 'vc.ril.camera' (1)
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 456, in _init_camera
+    self._camera = mo.MMALCamera()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 2279, in __init__
+    super(MMALCamera, self).__init__()
+  File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 633, in __init__
+    prefix="Failed to create MMAL component %s" % self.component_type)
+  File "/usr/lib/python3/dist-packages/picamera/exc.py", line 184, in mmal_check
+    raise PiCameraMMALError(status, prefix)
+picamera.exc.PiCameraMMALError: Failed to create MMAL component b'vc.ril.camera': Out of memory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 65, in <module>
+    capture()
+  File "/home/pi/FactoryProject/FactoryProCamera.py", line 31, in capture
+    with picamera.PiCamera() as camera:
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 431, in __init__
+    self._init_camera(camera_num, stereo_mode, stereo_decimate)
+  File "/usr/lib/python3/dist-packages/picamera/camera.py", line 460, in _init_camera
+    "Camera is not enabled. Try running 'sudo raspi-config' "
+picamera.exc.PiCameraError: Camera is not enabled. Try running 'sudo raspi-config' and ensure that the camera has been enabled.

@@ -1,0 +1,16 @@
+[Unit]
+Description = Factory sensor services
+After=network.target
+
+[Service]
+WorkingDirectory = /home/pi/FactoryProject
+ExecStart = /home/pi/FactoryProject/startFactoryPro_service.sh --sensor
+ExecStop = /home/pi/FactoryProject/startFactoryPro_service.sh --sensort
+Restart = always
+Type = simple
+
+RestartSec = 30
+StartLimitBurst = 0
+
+[Install]
+WantedBy = multi-user.target
