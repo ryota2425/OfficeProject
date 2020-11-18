@@ -2,6 +2,7 @@ HOST_NAME: office-pi000
 IP: 192.168.32.100
 MAC: 5e:13:3c:93:00:10
 
+vim /home/pi/office/id.conf
 sudo vim /etc/dhcpcd.conf
 sudo /usr/local/vpnclient/vpncmd
 2
