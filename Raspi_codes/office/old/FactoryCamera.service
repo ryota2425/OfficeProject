@@ -1,0 +1,16 @@
+[Unit]
+Description = Office camera services
+After=network.target
+
+[Service]
+WorkingDirectory = /home/pi/office
+ExecStart = /home/pi/office/startOfficePro_service.sh --camera
+ExecStop = /home/pi/FactoryProject/startOfficePro_service.sh --camerat
+Restart = always
+Type = simple
+
+RestartSec = 5
+StartLimitBurst = 0
+
+[Install]
+WantedBy = multi-user.target
