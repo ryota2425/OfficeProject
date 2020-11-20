@@ -68,6 +68,12 @@ app.get('/video/:MachineId/:year/:month/:day/:hour/:minute/:selectedHour', (req,
 })
 
 
+// 設定画面
+app.get('/setting', (req, res) => {
+    res.render('setting.ejs')
+});
+
+
 // サーバを起動
 var port = process.env.PORT || 8080;
 app.listen(port);
