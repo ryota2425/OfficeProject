@@ -1,12 +1,11 @@
 <!doctype html>
 
 <html lang="ja">
+    <%- include('./navbar'); %>
     <%- include('./header_video'); %>
     <%- include('./datepicker'); %>
 
     <body>
-        <%- include('./navbar'); %>
-
         <!-- 各ボタン -->
         <div class="start_input">
             <label>日付：<input type='text' id="starttime" class="datepicker-here"/></label>
@@ -48,7 +47,7 @@
             </select>
         </div>
 
-        <button id="search" class="search_button">検索</button>
+        <button id="search" class="button">検索</button>
 
         <hr>
         <br>
