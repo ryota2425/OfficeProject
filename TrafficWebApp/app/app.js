@@ -20,8 +20,8 @@ app.use(bodyParser.json({
 
 
 // Basic認証の設定
-var factory_auth = basicAuth('factory', 'factorypass');
-app.use(factory_auth)
+var kanai_auth = basicAuth('kanai', 'kanaipass');
+app.use(kanai_auth)
 
 
 // apiのルーティング (./routes/v1/index.jsをルーターに設定)
@@ -36,40 +36,40 @@ app.use('/api/v1/', router);
 app.set('views', __dirname + '/views');
 // 静的ファイル読み込みの宣言 (/public ディレクトリのファイルをロード可能にする)
 app.use(express.static(__dirname + '/public'));
-// 静的ファイル読み込みの宣言 (/../../Data ディレクトリ内ののファイルを /video_data パス・プレフィックスからロード可能にする)
-app.use('/video_data', express.static(__dirname + '/../../Data'))
+// // 静的ファイル読み込みの宣言 (/../../Data ディレクトリ内ののファイルを /video_data パス・プレフィックスからロード可能にする)
+// app.use('/video_data', express.static(__dirname + '/../../Data'))
 
 
-// トップページ
-app.get('/', (req, res) => {
-    res.render('top.ejs')
-});
+// // トップページ
+// app.get('/', (req, res) => {
+//     res.render('top.ejs')
+// });
 
 
-// リアルタイム動画再生
-app.get('/realtimevideo_byId/:id', (req, res) => {
-    res.render('realtimevideo_byId.ejs', {
-        MachineId: req.params.id
-    });
-});
+// // リアルタイム動画再生
+// app.get('/realtimevideo_byId/:id', (req, res) => {
+//     res.render('realtimevideo_byId.ejs', {
+//         MachineId: req.params.id
+//     });
+// });
 
 
-// 指定された時刻の動画を再生
-app.get('/video/:MachineId/:year/:month/:day/:hour/:minute/:selectedHour', (req, res) => {
-    res.render('video.ejs', {
-        MachineId: req.params.MachineId,
-        year: req.params.year,
-        month: req.params.month,
-        day: req.params.day,
-        hour: req.params.hour,
-        minute: req.params.minute,
-        selectedHour: req.params.selectedHour
-    })
-})
+// // 指定された時刻の動画を再生
+// app.get('/video/:MachineId/:year/:month/:day/:hour/:minute/:selectedHour', (req, res) => {
+//     res.render('video.ejs', {
+//         MachineId: req.params.MachineId,
+//         year: req.params.year,
+//         month: req.params.month,
+//         day: req.params.day,
+//         hour: req.params.hour,
+//         minute: req.params.minute,
+//         selectedHour: req.params.selectedHour
+//     })
+// })
 
 
 // 設定画面
-app.get('/setting', (req, res) => {
+app.get('/', (req, res) => {
     res.render('setting.ejs')
 });
 

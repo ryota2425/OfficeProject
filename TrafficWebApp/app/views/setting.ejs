@@ -6,6 +6,7 @@
     <body>
         <h4 id='currentFps' class='currentParams'></h4>
         <h4 id='currentRecodingTime' class='currentParams'></h4>
+        <h4 id='currentResolution' class='currentParams'></h4>
 
         <div class='spinner_area'>
             <input type='number' value='0' id='fpsSpinner' class='fpsSpinner' data-max='60' data-min='0'>
@@ -23,6 +24,17 @@
 
         <br><br>
         <br><br>
+
+        <div class='resolutionPullDown details'>
+            <select id='resolutionPullDown'>
+                <option value='unselected'>解像度</option>
+                <option id='480p' value='480'>480p</option>
+                <option id='720p' value='720'>720p</option>
+                <option id='1080p' value='1080'>1080p</option>
+            </select>
+        </div>
+        <button id='changeResolutionBtn' class='button'>解像度を変更</button>
+
         <hr>
 
         <script>
@@ -35,16 +47,30 @@
                 xhr.onload = function () {
                     // スピナーの初期値に現在の設定値を反映する
                     const params = JSON.parse(xhr.responseText);
-                    const fps = params.fps;
-                    const recordingTime = params.recordingTime;
+                    const result = params.result;
 
-                    let fpsSpinner =  document.getElementById('fpsSpinner');
-                    fpsSpinner.value = fps;
-                    let recordingTimeSpinner =  document.getElementById('recordingTimeSpinner');
-                    recordingTimeSpinner.value = recordingTime;
+                    if (result == 'OK') {
+                        const fps = params.fps;
+                        const recordingTime = params.recordingTime;
+                        const resolution = params.resolution;
 
-                    document.getElementById('currentFps').textContent = `現在のFPS: ${fps} FPS`;
-                    document.getElementById('currentRecodingTime').textContent = `現在の録画時間 ${recordingTime} 分`;
+                        let fpsSpinner =  document.getElementById('fpsSpinner');
+                        fpsSpinner.value = fps;
+                        let recordingTimeSpinner =  document.getElementById('recordingTimeSpinner');
+                        recordingTimeSpinner.value = recordingTime;
+
+                        resolutionArr = [480, 720, 1080];
+                        if (resolutionArr.indexOf(resolution) !== -1) {
+                            let element = document.getElementById(`${resolution}p`) ;
+                            element.selected = true;
+                        }
+
+                        document.getElementById('currentFps').textContent = `現在のFPS: ${fps} FPS`;
+                        document.getElementById('currentRecodingTime').textContent = `現在の録画時間 ${recordingTime} 分`;
+                        document.getElementById('currentResolution').textContent = `現在の解像度 ${resolution} p`;
+                    } else if (result == 'NG') {
+                        alert('現在の設定値の取得に失敗しました')
+                    }
                 };
 
                 // XMLHttpRequestを送信
@@ -89,12 +115,31 @@
                 xhr.send(JSON.stringify({recordingTime: recordingTime}));
             }
 
+            function changeResolution(resolution) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', `http://localhost:60080/set_resolution`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 受信に成功したとき
+                xhr.onload = function () {
+                    const result = JSON.parse(xhr.responseText).result;
+                    if (result == 'OK') {
+                        document.getElementById('currentResolution').textContent = `現在の解像度: ${resolution} p`;
+                    } else if (result == 'NG') {
+                        alert('解像度の変更に失敗しました');
+                    }
+                };
+
+                // XMLHttpRequestを送信
+                xhr.send(JSON.stringify({resolution: resolution}));
+            }
+
             // スピナー
             $(function() {
                 var arySpinnerCtrl = [];
-                var spin_speed = 20; //変動スピード
+                var spin_speed = 20;  // 変動スピード
 
-                //長押し押下時
+                // 長押し押下時
                 $('.btnspinner').on('touchstart mousedown click', function(e) {
                     if (arySpinnerCtrl['interval']) return false;
                     var target = $(this).data('target');
@@ -107,16 +152,16 @@
                         arySpinnerCtrl = [];
                         return false;
                     }
-                    //長押し時の処理
+                    // 長押し時の処理
                     setTimeout(function() {
-                        //インターバル未実行中 + 長押しのイベントタイプスタンプ一致時に計算処理
+                        // インターバル未実行中 + 長押しのイベントタイプスタンプ一致時に計算処理
                         if (!arySpinnerCtrl['interval'] && arySpinnerCtrl['timestamp'] == e.timeStamp) {
                             arySpinnerCtrl['interval'] = setInterval(spinnerCal, spin_speed);
                         }
                     }, 500);
                 });
 
-                //長押し解除時 画面スクロールも解除に含む
+                // 長押し解除時 画面スクロールも解除に含む
                 $(document).on('touchend mouseup scroll', function(e) {
                     if (arySpinnerCtrl['interval']) {
                         clearInterval(arySpinnerCtrl['interval']);
@@ -124,7 +169,7 @@
                     }
                 });
 
-                //変動計算関数
+                // 変動計算関数
                 function spinnerCal() {
                     var target = $(arySpinnerCtrl['target']);
                     var num = Number(target.val());
@@ -139,6 +184,7 @@
                 }
             });
 
+            // 画面ロード時
             (function() {
                 function init() {
                     getCurrentParams()
@@ -151,14 +197,24 @@
 
             // FPS変更ボタンが押されとき
             document.getElementById('changeFpsBtn').onclick = function () {
-                fps = document.getElementById('fpsSpinner').value;
+                const fps = document.getElementById('fpsSpinner').value;
                 changeFps(fps);
             };
 
             // 録画時間変更ボタンが押されとき
             document.getElementById('changeRecordingTimeBtn').onclick = function () {
-                recordingTime = document.getElementById('recordingTimeSpinner').value;
+                const recordingTime = document.getElementById('recordingTimeSpinner').value;
                 changeRecordingTime(recordingTime);
+            };
+
+            // 解像度変更ボタンが押されとき
+            document.getElementById('changeResolutionBtn').onclick = function () {
+                const resolution = $('#resolutionPullDown').val()
+                if (resolution == 'unselected') {
+                    alert('解像度を指定して下さい')
+                } else {
+                    changeResolution(resolution);
+                }
             };
         </script>
     </body>

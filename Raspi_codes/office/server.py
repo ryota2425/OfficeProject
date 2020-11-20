@@ -23,7 +23,8 @@ def getCurrentParams():
 
     # ここまで
 
-    return jsonify({'fps': 30, 'recordingTime': 5})
+    # エラーのときは、return jsonify({'result': 'NG'})
+    return jsonify({'result': 'OK', 'fps': 30, 'recordingTime': 5, 'resolution': 720})
 
 
 # FPSを変更
@@ -38,6 +39,7 @@ def setFps():
 
     # ここまで
 
+    # エラーのときは、return jsonify({'result': 'NG'})
     return jsonify({'result': 'OK'})
 
 
@@ -53,6 +55,23 @@ def setRecordingTime():
 
     # ここまで
 
+    # エラーのときは、return jsonify({'result': 'NG'})
+    return jsonify({'result': 'OK'})
+
+
+# 解像度を変更
+@app.route('/set_resolution', methods=['POST'])
+def setResolution():
+    data = json.loads(request.get_data().decode())
+    resolution = int(data['resolution'])
+    print('Set resolution:', resolution)
+
+    # TODO: DB更新処理やエラー用処理を記述
+    # ここから
+
+    # ここまで
+
+    # エラーのときは、return jsonify({'result': 'NG'})
     return jsonify({'result': 'OK'})
 
 
