@@ -1,0 +1,165 @@
+<!doctype html>
+
+<html lang="ja">
+    <%- include('./navbar'); %>
+
+    <body>
+        <h4 id='currentFps' class='currentParams'></h4>
+        <h4 id='currentRecodingTime' class='currentParams'></h4>
+
+        <div class='spinner_area'>
+            <input type='number' value='0' id='fpsSpinner' class='fpsSpinner' data-max='60' data-min='0'>
+            <input type='button' value='＋' class='btnspinner' data-cal='1' data-target='.fpsSpinner'>
+            <input type='button' value='－' class='btnspinner' data-cal='-1' data-target='.fpsSpinner'>
+            <button id='changeFpsBtn' class='button'>FPSを変更</button>
+        </div>
+
+        <div class='spinner_area'>
+            <input type='number' value='0' id='recordingTimeSpinner' class='recordingTimeSpinner' data-max='60' data-min='0'>
+            <input type='button' value='＋' class='btnspinner' data-cal='1' data-target='.recordingTimeSpinner'>
+            <input type='button' value='－' class='btnspinner' data-cal='-1' data-target='.recordingTimeSpinner'>
+            <button id='changeRecordingTimeBtn' class='button'>録画時間(分)を変更</button>
+        </div>
+
+        <br><br>
+        <br><br>
+        <hr>
+
+        <script>
+            function getCurrentParams() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', `http://localhost:50080/get_current_params`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 受信に成功したとき
+                xhr.onload = function () {
+                    // スピナーの初期値に現在の設定値を反映する
+                    const params = JSON.parse(xhr.responseText);
+                    const fps = params.fps;
+                    const recordingTime = params.recordingTime;
+
+                    let fpsSpinner =  document.getElementById('fpsSpinner');
+                    fpsSpinner.value = fps;
+                    let recordingTimeSpinner =  document.getElementById('recordingTimeSpinner');
+                    recordingTimeSpinner.value = recordingTime;
+
+                    document.getElementById('currentFps').textContent = `現在のFPS: ${fps} FPS`;
+                    document.getElementById('currentRecodingTime').textContent = `現在の録画時間 ${recordingTime} 分`;
+                };
+
+                // XMLHttpRequestを送信
+                xhr.send(null);
+            }
+
+            function changeFps(fps) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', `http://localhost:50080/set_fps`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 受信に成功したとき
+                xhr.onload = function () {
+                    const result = JSON.parse(xhr.responseText).result;
+                    if (result == 'OK') {
+                        document.getElementById('currentFps').textContent = `現在のFPS: ${fps} FPS`;
+                    } else if (result == 'NG') {
+                        alert('FPSの変更に失敗しました');
+                    }
+                };
+
+                // XMLHttpRequestを送信
+                xhr.send(JSON.stringify({fps: fps}));
+            }
+
+            function changeRecordingTime(recordingTime) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', `http://localhost:50080/set_recordingTime`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 受信に成功したとき
+                xhr.onload = function () {
+                    const result = JSON.parse(xhr.responseText).result;
+                    if (result == 'OK') {
+                        document.getElementById('currentRecodingTime').textContent = `現在の録画時間 ${recordingTime} 分`;
+                    } else if (result == 'NG') {
+                        alert('録画時間の変更に失敗しました');
+                    }
+                };
+
+                // XMLHttpRequestを送信
+                xhr.send(JSON.stringify({recordingTime: recordingTime}));
+            }
+
+            // スピナー
+            $(function() {
+                var arySpinnerCtrl = [];
+                var spin_speed = 20; //変動スピード
+
+                //長押し押下時
+                $('.btnspinner').on('touchstart mousedown click', function(e) {
+                    if (arySpinnerCtrl['interval']) return false;
+                    var target = $(this).data('target');
+                    arySpinnerCtrl['target'] = target;
+                    arySpinnerCtrl['timestamp'] = e.timeStamp;
+                    arySpinnerCtrl['cal'] = Number($(this).data('cal'));
+                    //クリックは単一の処理に留める
+                    if (e.type == 'click') {
+                        spinnerCal();
+                        arySpinnerCtrl = [];
+                        return false;
+                    }
+                    //長押し時の処理
+                    setTimeout(function() {
+                        //インターバル未実行中 + 長押しのイベントタイプスタンプ一致時に計算処理
+                        if (!arySpinnerCtrl['interval'] && arySpinnerCtrl['timestamp'] == e.timeStamp) {
+                            arySpinnerCtrl['interval'] = setInterval(spinnerCal, spin_speed);
+                        }
+                    }, 500);
+                });
+
+                //長押し解除時 画面スクロールも解除に含む
+                $(document).on('touchend mouseup scroll', function(e) {
+                    if (arySpinnerCtrl['interval']) {
+                        clearInterval(arySpinnerCtrl['interval']);
+                        arySpinnerCtrl = [];
+                    }
+                });
+
+                //変動計算関数
+                function spinnerCal() {
+                    var target = $(arySpinnerCtrl['target']);
+                    var num = Number(target.val());
+                    num = num + arySpinnerCtrl['cal'];
+                    if (num > Number(target.data('max'))) {
+                        target.val(Number(target.data('max')));
+                    } else if (Number(target.data('min')) > num) {
+                        target.val(Number(target.data('min')));
+                    } else {
+                        target.val(num);
+                    }
+                }
+            });
+
+            (function() {
+                function init() {
+                    getCurrentParams()
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    init();
+                }, false)
+            })()
+
+            // FPS変更ボタンが押されとき
+            document.getElementById('changeFpsBtn').onclick = function () {
+                fps = document.getElementById('fpsSpinner').value;
+                changeFps(fps);
+            };
+
+            // 録画時間変更ボタンが押されとき
+            document.getElementById('changeRecordingTimeBtn').onclick = function () {
+                recordingTime = document.getElementById('recordingTimeSpinner').value;
+                changeRecordingTime(recordingTime);
+            };
+        </script>
+    </body>
+</html>
