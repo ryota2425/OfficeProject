@@ -1,0 +1,65 @@
+<!doctype html>
+
+<html lang="ja">
+    <%- include('./header_video'); %>
+
+    <body>
+        <%- include('./navbar'); %>
+
+        <!-- 機械名 -->
+        <h1 id="videoinfo"></h1>
+
+        <!-- 動画表示欄 -->
+        <div class='movie-wrapper'>
+            <video id='video' src="/video_data/record/<%= MachineId %>/<%= year %>/<%= month %>/<%= day %>/<%= selectedHour %>/<%= MachineId %>_<%= year %>-<%= month %>-<%= day %>_<%= hour %>-<%= minute %>.mp4" width="1280" height="720" crossOrigin="anonymous" autoplay="autoplay" controls="controls"></video>
+        </div>
+
+        <script>
+            var machineInfo = [];
+
+            function getMachineName() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/api/v1/config/machine_name_list', false);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 受信に成功したとき
+                xhr.onload = function () {
+                    machineInfo = JSON.parse(xhr.responseText).result;
+
+                    for (var i = 0; i < machineInfo.length; i++) {
+                        if('<%= MachineId %>' == machineInfo[i].machineId) {
+                            machineName = machineInfo[i].name
+                            var UTC_JAPAN = 9;
+                            var timeDifference = UTC_JAPAN - machineInfo[i].utc;
+                        }
+                    }
+
+                    var date = new Date(`${"<%= year %>"}/${"<%= month %>"}/${"<%= day %>"} ${"<%= hour %>"}:${"<%= minute %>"}`);
+                    date.setHours(date.getHours() - timeDifference);
+
+                    var year = date.getFullYear();
+                    var month = date.getMonth() + 1;
+                    var day = date.getDate();
+                    var hour = date.getHours();
+                    var minute = date.getMinutes();
+
+                    document.getElementById('videoinfo').innerHTML = `機械名 : ${machineName}　　${year}年 ${month}月 ${day}日 ${hour}時 ${minute}分`;
+                };
+                // XMLHttpRequestを送信
+                xhr.send(null);
+            }
+
+            // 画面ロード時
+            (function() {
+                function init() {
+                    // URLから機械の名前を取得
+                    getMachineName();
+                }
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    init();
+                }, false)
+            })()
+        </script>
+    </body>
+</html>

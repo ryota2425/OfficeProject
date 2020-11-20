@@ -1,0 +1,90 @@
+<!doctype html>
+
+<html lang="ja">
+    <%- include('./navbar'); %>
+    <%- include('./header_video'); %>
+
+    <body>
+        <!-- 機械名 -->
+        <h1 id="videoinfo"></h1>
+
+        <!-- 機械名一覧 -->
+        <form name="pullForm" class="pullForm">
+            <select name="pullMenu" id="machine_name_list" onChange="screenChange()" class="pullForm">
+                <option>機械名一覧</option>
+            </select>
+        </form>
+
+        <hr>
+        <br>
+
+        <!-- リアルタイム動画表示欄 -->
+        <div class='movie-wrapper'>
+            <video id="live" width="900" height="750" crossOrigin="anonymous" autoplay="autoplay" controls="controls">
+        </div>
+
+        <script>
+            var machineName;
+            var machineNameList;
+
+            if (Hls.isSupported()) {
+                var video = document.getElementById('live');
+                var hls = new Hls();
+                hls.loadSource('/video_data/video/<%= MachineId %>/index.m3u8');
+                hls.attachMedia(live);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    video.play();
+                });
+            }
+
+            function getMachineName() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/api/v1/config/machine_name_list', false);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 受信に成功したとき
+                xhr.onload = function () {
+                    machineNameList = JSON.parse(xhr.responseText).result;
+
+                    for (var i = 0; i < machineNameList.length; i++) {
+                        if ('<%= MachineId %>' == machineNameList[i].machineId) {
+                            machineName = machineNameList[i].name
+                        }
+                    }
+                };
+                // XMLHttpRequestを送信
+                xhr.send(null);
+            }
+
+            // 機械名一覧から機械が選択されたとき、その機械のリアルタイム動画のページに飛ばす
+            function screenChange(){
+                pullSellect = document.pullForm.pullMenu.selectedIndex ;
+                location.href = document.pullForm.pullMenu.options[pullSellect].value ;
+            }
+
+            // 画面ロード時
+            (function() {
+                function init() {
+                    // URLから機械の名前を取得
+                    getMachineName();
+
+                    document.getElementById('videoinfo').innerHTML = `機械名 : ${machineName}　　🔴 LIVE`
+                    var nameMenu = document.getElementById('machine_name_list')
+                    for (i = 0; i < machineNameList.length; i++) {
+                        nameMenu.insertAdjacentHTML('afterbegin','<option value=/realtimevideo_byId/'+ machineNameList[i].machineId +'>'+ machineNameList[i].name + '<optin>');
+                    }
+                }
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    init();
+                }, false)
+            })()
+
+
+            function jumpToLatest() {
+                document.getElementById("live").currentTime = 99999999;
+            }
+            setTimeout("jumpToLatest()", 2000);
+        </script>
+    </body>
+</html>
