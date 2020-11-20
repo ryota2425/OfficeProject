@@ -187,37 +187,3 @@
     width: 75%;
     height: 75%;
 }
-
-/* スピナー */
-.btnspinner {
-    -ms-user-select: none;
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.spinner_area input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 15px;
-    width: auto;
-    vertical-align: middle;
-    /* デフォルトのスピナーを消す */
-    -webkit-appearance: none;
-    -moz-appearance:textfield;
-}
-
-.spinner_area input[type="button"] {
-    cursor: pointer;
-}
-
-.spinner_area {
-    margin: 5px 3%;
-    float: left;
-}
-
-.currentParams {
-    margin: 5px 3%;
-}
