@@ -28,7 +28,7 @@
         <script>
             function getCurrentParams() {
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', `http://localhost:50080/get_current_params`);
+                xhr.open('GET', `http://localhost:60080/get_current_params`);
                 xhr.setRequestHeader('Content-Type', 'application/json');
 
                 // 受信に成功したとき
@@ -53,7 +53,7 @@
 
             function changeFps(fps) {
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', `http://localhost:50080/set_fps`);
+                xhr.open('POST', `http://localhost:60080/set_fps`);
                 xhr.setRequestHeader('Content-Type', 'application/json');
 
                 // 受信に成功したとき
@@ -72,7 +72,7 @@
 
             function changeRecordingTime(recordingTime) {
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', `http://localhost:50080/set_recordingTime`);
+                xhr.open('POST', `http://localhost:60080/set_recordingTime`);
                 xhr.setRequestHeader('Content-Type', 'application/json');
 
                 // 受信に成功したとき
