@@ -20,11 +20,29 @@ def afterRequest(response):
 def getCurrentParams():
     # TODO: DB読み取り処理やエラー用処理を記述
     # ここから
-
+    try:
+        # ローカルJSONファイルの読み書き
+        with open('setting.json', 'r') as f:
+            setting = json.load(f)
+            fps = setting["fps"] 
+            #秒=>分への変換
+            recordingTime = setting["recordingTime"] 
+            resolution = setting["resolution"] 
+            
+    except Exception as e:
+        #エラーハンドリング
+        print(e)
+        return jsonify({'result': 'NG'})
+    else:
+        #成功した時の処理
+        print('Setting Parameters:', setting)
+        response = setting
+        response["result"] = "OK"
+        print(response) 
     # ここまで
 
     # エラーのときは、return jsonify({'result': 'NG'})
-    return jsonify({'result': 'OK', 'fps': 30, 'recordingTime': 5, 'resolution': 720})
+    return jsonify(response)
 
 
 # FPSを変更
@@ -32,8 +50,22 @@ def getCurrentParams():
 def setFps():
     data = json.loads(request.get_data().decode())
     fps = int(data['fps'])
-    print('Set FPS:', fps)
-
+    #JSONファイルを更新する
+    try:
+        # ローカルJSONファイルの読み書き
+        with open('setting.json', 'r') as f:
+            setting = json.load(f)
+            setting["fps"] = fps
+        with open('setting.json', 'w') as f:
+            f.write(json.dumps(setting))   
+    except Exception as e:
+        #エラーハンドリング
+        print(e)
+        return jsonify({'result': 'NG'})
+    else:
+        #成功した時の処理
+        print('Set FPS:', fps)
+        print(data)
     # TODO: DB更新処理やエラー用処理を記述
     # ここから
 
@@ -50,6 +82,23 @@ def setRecordingTime():
     recordingTime = int(data['recordingTime'])
     print('Set Recording Time:', recordingTime)
 
+    #JSONファイルを更新する
+    try:
+        # ローカルJSONファイルの読み書き
+        with open('setting.json', 'r') as f:
+            setting = json.load(f)
+            setting["recordingTime"] = recordingTime
+        with open('setting.json', 'w') as f:
+            f.write(json.dumps(setting))
+    except Exception as e:
+        #エラーハンドリング
+        print(e)
+        return jsonify({'result': 'NG'})
+    else:
+        #成功した時の処理
+        print('Set recordingTime:', recordingTime)
+        print(data)
+
     # TODO: DB更新処理やエラー用処理を記述
     # ここから
 
@@ -65,6 +114,24 @@ def setResolution():
     data = json.loads(request.get_data().decode())
     resolution = int(data['resolution'])
     print('Set resolution:', resolution)
+
+    #JSONファイルを更新する
+    try:
+        # ローカルJSONファイルの読み書き
+        with open('setting.json', 'r') as f:
+            setting = json.load(f)
+            setting["resolution"] = resolution
+        with open('setting.json', 'w') as f:
+            f.write(json.dumps(setting))
+    except Exception as e:
+        #エラーハンドリング
+        print(e)
+        return jsonify({'result': 'NG'})
+    else:
+        #成功した時の処理
+        print('Set resolution:', resolution)
+        print(data)
+
 
     # TODO: DB更新処理やエラー用処理を記述
     # ここから
