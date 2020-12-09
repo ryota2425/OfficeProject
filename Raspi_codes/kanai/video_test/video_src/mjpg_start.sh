@@ -3,8 +3,10 @@
 PORT="8080" #ポート番号
 ID="kanai" #ID
 PW="kanaipass" #パスワード
-SIZE=${1:-"640x480"} #解像度
-FRAMERATE=${2:-"30"} # FPS
+
+FRAMERATE=${1:-"30"} # FPS
+SIZE=${2:-"640x480"} #解像度
+
 export LD_LIBRARY_PATH=/usr/local/lib
 
 #./mjpg_streamer \
